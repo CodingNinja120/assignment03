@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Food Order</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f9f9f9;
+    }
+
+    header {
+      position: relative;
+      width: 100%;
+      height: 300px; /* Adjust height as needed */
+      overflow: hidden;
+    }
+
+    header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    header h1 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 3em;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+      margin: 0;
+    }
+    
+    header {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      overflow: hidden;
+    }
+
+    header img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(40%);
+    }
+
+    header h1 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: white;
+      font-size: 90px;
+      text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+      margin: 0;
+      z-index: 1;
+    }
+
+    header {
+        color: white;
+        padding: 20px;
+        text-align: center;
+        font-size: 32px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        letter-spacing: 1.5px;
+        text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        font-weight: bold;
+        text-transform: uppercase;
+        /* border: 5px solid black; */
+    }
+
+    .menu {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin: 20px;
+    }
+
+    .item {
+      background: white;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      padding: 25px;
+      margin: 10px;
+      width: 200px;
+      text-align: center;
+      box-shadow: 1px 1px 5px 5px rgba(0,0,0,0.1);
+      border: 1px solid black;
+    }
+
+    .item img {
+      width: 100%;
+      height: 130px;
+      object-fit: cover;
+      border-radius: 5px;
+      margin-bottom: 10px;
+    }
+
+    .item h3 {
+      margin-bottom: 10px;
+    }
+
+    .item button {
+      background: #28a745;
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    .cart {
+      max-width: 400px;
+      margin: 90px auto;
+      background: #fff3cd;
+      padding: 15px;
+      border-radius: 5px;
+      box-shadow: 1px 1px 5px 5px rgba(0,0,0,0.1);
+      border: 1px solid black;
+    }
+
+    .cart h2 {
+      margin-top: 0;
+    }
+
+    #checkout {
+      display: block;
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px;
+      margin-top: 10px;
+      width: 100%;
+      cursor: pointer;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Food Order Page</h1>
+    <img src="https://www.shutterstock.com/image-photo/background-food-dishes-european-cuisine-260nw-2490284951.jpg" alt="image">
+  </header>
+
+  <div class="menu">
+    <div class="item">
+      <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTIibPbOeDQQscm9g-fDNdCvROokQJukg8nYQ&s" alt="Pizza">
+      <h3>Pizza</h3>
+      <p>₹10</p>
+      <button onclick="addToCart('Pizza', 10)">Add to Cart</button>
+    </div>
+    <div class="item">
+      <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd" alt="Burger">
+      <h3>Burger</h3>
+      <p>₹7</p>
+      <button onclick="addToCart('Burger', 7)">Add to Cart</button>
+    </div>
+    <div class="item">
+      <img src="https://images.unsplash.com/photo-1525755662778-989d0524087e" alt="Pasta">
+      <h3>Pasta</h3>
+      <p>₹8</p>
+      <button onclick="addToCart('Pasta', 8)">Add to Cart</button>
+    </div>
+    <div class="item">
+      <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141" alt="Salad">
+      <h3>Salad</h3>
+      <p>₹5</p>
+      <button onclick="addToCart('Salad', 5)">Add to Cart</button>
+    </div>
+  </div>
+
+  <div class="cart">
+    <h2>Your Cart</h2>
+    <ul id="cart-items">
+      <!-- Cart items appear here -->
+    </ul>
+    <p><strong>Total:</strong> ₹<span id="total">0</span></p>
+    <button id="checkout" onclick="checkout()">Checkout</button>
+  </div>
+
+  <script>
+    let cart = [];
+    let total = 0;
+
+    function addToCart(itemName, price) {
+      cart.push({ name: itemName, price: price });
+      total += price;
+      updateCart();
+    }
+
+    function updateCart() {
+      const cartItems = document.getElementById('cart-items');
+      const totalDisplay = document.getElementById('total');
+      cartItems.innerHTML = '';
+
+      cart.forEach((item, index) => {
+        const li = document.createElement('li');
+        li.textContent = `${item.name} - ₹${item.price}`;
+        cartItems.appendChild(li);
+      });
+
+      totalDisplay.textContent = total;
+    }
+
+    function checkout() {
+      if (cart.length === 0) {
+        alert("Your cart is empty!");
+      } else {
+        alert("Order placed! Total: ₹" + total);
+        cart = [];
+        total = 0;
+        updateCart();
+      }
+    }
+  </script>
+
+</body>
+</html>
